@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { AuthContext } from '../context/auth'
 
-export default function Login() {
+export default function () {
 
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
@@ -26,7 +26,7 @@ export default function Login() {
 				verifyStoredToken()
 					.then(() => {
 						// redirect to projects
-						navigate('/')
+						navigate('/profile')
 					})
 			})
 			.catch(err => {
@@ -40,7 +40,7 @@ export default function Login() {
 
 	return (
 		<>
-			<h1>Login</h1>
+			<h1></h1>
 			<form onSubmit={handleSubmit}>
 
 				<label htmlFor="email">Email: </label>
