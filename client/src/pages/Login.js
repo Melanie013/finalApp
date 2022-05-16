@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { AuthContext } from '../context/auth'
 
-export default function () {
+export default function Login () {
 
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
@@ -40,7 +40,7 @@ export default function () {
 
 	return (
 		<>
-			<h1></h1>
+			<h1>Login</h1>
 			<form onSubmit={handleSubmit}>
 
 				<label htmlFor="email">Email: </label>
