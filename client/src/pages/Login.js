@@ -19,7 +19,7 @@ export default function Login () {
 		axios.post('/api/auth/login', requestBody)
 			.then(response => {
 				// redirect to projects
-				console.log('i have a token mothafukkas')
+				// console.log('token ist da')
 				const token = response.data.authToken
 				// store the token
 				storeToken(token)

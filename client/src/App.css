@@ -1,5 +1,14 @@
 .completed {
     text-decoration: line-through;
     opacity: 0.5;
-
 }
+
+
+.pomodoro {
+    font-size: 3em;
+    min-height: 0.8em;
+    margin-bottom: 0,5em ;
+}
+
+
+
