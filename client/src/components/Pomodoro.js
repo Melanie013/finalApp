@@ -1,46 +1,158 @@
-import React, { useState, useEffect } from 'react'
+import React, {useState} from 'react'
+import '../styles/Pomodoro.css'
+
 
 export default function Pomodoro() {
-    const [minutes, setMinutes] = useState (25);
-    const [seconds, setSeconds] = useState (0);
-    const [displayMessage, setDisplayMessage] = useState (false);
 
-    useEffect(() => {
-        let interval = setInterval(() => {
+    const [displaytime, setDisplayTime] = useState (25*60);
+    const [breaktime, setBreakTime] = useState (5*60);
+    const [sessiontime, setSessionTime] = useState (25*60);
+    const [timerOn, setTimerOn] = useState (false);
+    const [onBreak, setOnBreak] = useState (false);
 
-            clearInterval(interval);
 
-            if (seconds === 0) {
-                if (minutes !== 0) {
-                    setSeconds(59);
-                    setMinutes(minutes -1)
-                } else {
-                    let minutes = displayMessage ? 24 : 4;
-                    let seconds = 59;
+    const formatTime = (time) => {
 
-                    setSeconds(seconds);
-                    setMinutes(minutes);
-                    setDisplayMessage(!displayMessage);
-                } 
-            } else {
+        let minutes = Math.floor(time/ 60)
+        let seconds = time % 60
+        return ( 
+            
+            (minutes < 10 ? "0" + minutes: minutes) + ":" + 
+            (seconds < 10 ? "0" + seconds: seconds)
+        )
+    }
 
-                    setSeconds(seconds -1)
+    const changeTime = (amount, type) => {
+        
+        if(type === 'break') {
+            if(breaktime <= 60 && amount < 0) {
+                return;
             }
-        }, 1000)
-}, [seconds]);
+            setBreakTime((prev) => prev + amount);
+        }else{
+            if(sessiontime <= 60 && amount < 0) {
+                return;
+            }
+            setSessionTime((prev) => prev + amount)
+            if(!timerOn){
+                setDisplayTime(sessiontime + amount)
+            }
+        }
+    }
+
+    const checkTime = () => {
 
 
-    const timerMinutes = minutes < 10 ? `0${minutes}` : minutes; 
-    const timerSeconds = seconds < 10 ? `0${seconds}` : seconds;
+        let second = 1000;
+        let date = new Date().getTime()
+        let nextDate = new Date().getTime() +second;
+        let onbreakvar = onBreak;
+
+
+        if(!timerOn){
+            let interval = setInterval (() => {
+                date = new Date().getTime();
+                if(date > nextDate){
+                    setDisplayTime((prev) => {
+                        if (prev <= 0 && !onbreakvar){
+                
+                            onbreakvar = true
+                            setOnBreak(true)
+                            return breaktime;
+                        } else if (prev <= 0 && onbreakvar) {
+                            onbreakvar = false
+                            setOnBreak(false)
+                            return sessiontime;
+
+                        }
+
+
+
+
+                        return prev -1;
+                    });
+                    nextDate += second;
+                }
+
+            }, 30);
+            localStorage.clear()
+            localStorage.setItem('interval-id', interval)
+        }
+
+
+        if(timerOn){
+            clearInterval(localStorage.getItem("interval-id"))
+        }
+
+        setTimerOn(!timerOn)
+    }
+
+    const resetTime = () => {
+        setDisplayTime(25*60)
+        setBreakTime(5*60)
+        setSessionTime(25*60)
+    }
 
 
   return (
-    <div className='pomodoro'>
-        <div className='message'>
-            {displayMessage && <div>Break time! New session starts in:</div>}
-        </div>
-        <div className='timer'>{timerMinutes}:{timerSeconds}</div>
+    <div className="center-align">
+
+    <h1>Timer</h1>
+    <div className='pomodoro-container'>   
+
+    <Length
+    
+        title={"break length"}
+        changeTime={changeTime}
+        type={"break"}
+        time={breaktime}
+        formatTime={formatTime}    
+    />
+
+    <Length
+    
+        title={"session length"}
+        changeTime={changeTime}
+        type={"session"}
+        time={sessiontime}
+        formatTime={formatTime}    
+    />
     </div>
-        
+
+    <h3>{onBreak ? "Break" : "Session"}</h3>
+    <h1>{formatTime(displaytime)}</h1>
+   
+    <button className='pause-btn' onClick={checkTime}>
+       {timerOn ? (
+           <i>pause</i>
+
+       ): (
+           <i>start</i>
+       )}
+    </button>
+
+    <button className='reset-btn' onClick={resetTime}>
+
+        <i>reset time</i>
+
+    </button>
+    </div>
   )
 }
+
+function Length ({title, changeTime, type, time, formatTime}) {
+    
+    
+    
+    return (
+    <div>
+        <h3>{title}</h3>
+        <div className='time-options'>
+            <button onClick={() => changeTime(-60, type)}>Down</button>
+            <h3>{formatTime(time)}</h3>
+            <button onClick={() => changeTime(60, type)}>Up</button>
+        </div>
+    </div>
+    )
+}
+
