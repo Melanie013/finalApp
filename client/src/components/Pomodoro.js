@@ -98,6 +98,7 @@ export default function Pomodoro() {
     <div className="center-align">
 
     <h1>Timer</h1>
+    <br />
     <div className='pomodoro-container'>   
 
     <Length
@@ -124,16 +125,16 @@ export default function Pomodoro() {
    
     <button className='pause-btn' onClick={checkTime}>
        {timerOn ? (
-           <i>pause</i>
+           <i>Pause</i>
 
        ): (
-           <i>start</i>
+           <i>Start</i>
        )}
     </button>
 
     <button className='reset-btn' onClick={resetTime}>
 
-        <i>reset time</i>
+        <i>Reset time</i>
 
     </button>
     </div>
@@ -148,9 +149,9 @@ function Length ({title, changeTime, type, time, formatTime}) {
     <div>
         <h3>{title}</h3>
         <div className='time-options'>
-            <button onClick={() => changeTime(-60, type)}>Down</button>
+            <button className='pomodoro-btn' onClick={() => changeTime(-60, type)}>-</button>
             <h3>{formatTime(time)}</h3>
-            <button onClick={() => changeTime(60, type)}>Up</button>
+            <button className='pomodoro-btn' onClick={() => changeTime(60, type)}>+</button>
         </div>
     </div>
     )

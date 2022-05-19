@@ -24,8 +24,12 @@ export default function Home() {
 	return (
 
 		<div className='quotes'>
-		<h1>Lack of motivation?</h1>
-		<p>Boost yourself with some inspiring quotes ✨</p>
+		<div className="profileheader">
+			<h1>PureFocus</h1>
+
+			<h2>Lack of motivation?</h2>
+			<p>Boost yourself with some inspiring quotes ✨</p>
+		</div>
 
 			<div className='quote'>
 				<p>{quotes.text}</p>

@@ -4,6 +4,12 @@
 }
 
 
+.profileheader {
 
+    margin: 0 auto;
 
+}
 
+#greeting {
+    background-color: lightblue;
+}

@@ -15,7 +15,7 @@ export default function Navbar() {
 				(
 					<>
 						
-						<Link to='/profile'><button>Profile</button></Link>
+						<Link to='/profile'><button>Today's ToDo's</button></Link>
 						<Link to='/tasks'><button>Add ToDo</button></Link>
 						<button onClick={logoutUser}>Log out</button>
 					</>
