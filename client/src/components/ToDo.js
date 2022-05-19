@@ -26,7 +26,7 @@ const ToDo = ({text, todos, todo, setTodos, getAllTodos}) => {
     .catch(err => {
       console.log(err)
     })
-    
+    getAllTodos()
   };
 
 
